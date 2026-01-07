@@ -1,4 +1,1 @@
-image = load_image()
-edges = edge_detection(image)
-save_image(edges)
-
+Image.open("edges.png").show()
