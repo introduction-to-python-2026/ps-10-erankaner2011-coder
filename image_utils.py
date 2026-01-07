@@ -1,10 +1,8 @@
 from PIL import Image
 import numpy as np
 from scipy.signal import convolve2d
-import matplotlib.pyplot as plt
 
 def load_image(path="sonic.png"):
-    # Load sonic.png, convert to grayscale, return NumPy array
     img = Image.open(path).convert("L")
     return np.array(img, dtype=np.float32)
 
@@ -23,11 +21,9 @@ def edge_detection(image):
     edges = np.sqrt(gx**2 + gy**2)
     return edges
 
-# ---- Run ----
-image = load_image()          # uses sonic.png
-edges = edge_detection(image)
+def save_image(image, path="edges.png"):
+    # Normalize to 0–255
+    image = (image / image.max()) * 255
+    image = image.astype(np.uint8)
 
-# Display result
-plt.imshow(edges, cmap="gray")
-plt.axis("off")
-plt.show()
+    Image.fromarray(image).save(path)
