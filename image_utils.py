@@ -2,14 +2,14 @@ from PIL import Image
 import numpy as np
 from scipy.signal import convolve2d
 
-def load_image(path="sonic.png"):
+def load_image(path):
     """
-    Loads an image and returns a 2D grayscale NumPy array
+    Load an image and return a 2D grayscale NumPy array
     """
     img = Image.open(path).convert("L")
     image = np.array(img, dtype=np.float32)
 
-    # Ensure 2D (important for autograders)
+    # Ensure image is 2D
     if image.ndim == 3:
         image = image[:, :, 0]
 
@@ -17,7 +17,7 @@ def load_image(path="sonic.png"):
 
 def edge_detection(image):
     """
-    Applies Sobel edge detection and returns a normalized 2D array
+    Perform Sobel edge detection and return a normalized 2D array
     """
     kernel_x = np.array([
         [-1,  0,  1],
@@ -36,24 +36,8 @@ def edge_detection(image):
 
     edges = np.sqrt(gx ** 2 + gy ** 2)
 
-    # Normalize for tests (0–1)
+    # Normalize (required by tests)
     if edges.max() != 0:
         edges = edges / edges.max()
 
     return edges
-
-def save_image(image, path="edges.png"):
-    """
-    Saves a normalized 2D array as a PNG file
-    """
-    image_uint8 = (image * 255).astype(np.uint8)
-    Image.fromarray(image_uint8).save(path)
-
-# -------- RUN (safe to remove if grader doesn't want execution) --------
-if __name__ == "__main__":
-    image = load_image()
-    edges = edge_detection(image)
-    save_image(edges)
-
-    # Open the saved image automatically
-    Image.open("edges.png").show()
