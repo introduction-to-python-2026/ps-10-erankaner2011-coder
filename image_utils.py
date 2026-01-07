@@ -18,6 +18,17 @@ def edge_detection(image):
     gx = convolve2d(image, kernel_x, mode="same", boundary="symm")
     gy = convolve2d(image, kernel_y, mode="same", boundary="symm")
 
-    edges = np.sqrt(gx**2 + gy**2)
-    return edges
+    return np.sqrt(gx**2 + gy**2)
 
+def save_image(image, path="edges.png"):
+    image = (image / image.max()) * 255
+    image = image.astype(np.uint8)
+    Image.fromarray(image).save(path)
+
+# ---- Run ----
+image = load_image()
+edges = edge_detection(image)
+save_image(edges)
+
+# Open the image automatically
+Image.open("edges.png").show()
