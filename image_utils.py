@@ -21,9 +21,3 @@ def edge_detection(image):
     edges = np.sqrt(gx**2 + gy**2)
     return edges
 
-def save_image(image, path="edges.png"):
-    # Normalize to 0–255
-    image = (image / image.max()) * 255
-    image = image.astype(np.uint8)
-
-    Image.fromarray(image).save(path)
